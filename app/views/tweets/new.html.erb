@@ -1,0 +1,103 @@
+<h1>GeekTwitter</h1>
+<h3>新規投稿</h3>
+<%= form_for @tweet do |f| %>
+  <div class="field">
+    <%= f.label :name,"商品名" %>
+    <%= f.text_field :name, :size => 40,placeholder:"商品名を入れる" %><br>
+   
+    <%= f.label :price %>
+    <%= f.number_field :price, :size => 40 %>円<br>
+   
+    <%= f.label :flavor %>
+    <%= f.text_field :flavor, :size => 40 %><br>
+   
+    <%= f.label :detail %>
+    <%= f.text_area :detail, :size => "20x5" %><br>
+   
+    <%= f.select :genre, [['カップアイス', 'カップアイス'], ['棒アイス', '棒アイス'], ['ソフトクリーム', 'ソフトクリーム'], ['氷菓', '氷菓'], ['モナカ', 'モナカ'], ['サンド', 'サンド'], ['その他', 'その他']], {include_blank: '種類'} %><br>
+
+    <%= f.select :season, [['春', '春'], ['夏', '夏'], ['秋', '秋'], ['冬', '冬'], ['通年', '通年'], ['その他', 'その他']], {include_blank: '季節'} %> 
+  </div>
+  
+  <div class="field">
+    <%= f.label :image %>
+    <%= f.file_field :image %>
+  </div>
+  
+    <%= f.hidden_field :lat,:value =>"0", id: :lat %>
+   
+    <%= f.hidden_field :lng,:value =>"0", id: :lng %>
+  <%= f.submit "投稿する" %>
+<% end %>
+<%= link_to "投稿一覧に戻る", tweets_path %>
+
+
+<h2>Map</h2>
+
+<input id="address" type="textbox" placeholder="お店の位置情報">
+<input type="button" value="検索" onclick="codeAddress()">
+<p>マーカーをドラック＆ドロップで位置の調整ができます。<p>
+<div id='map'></div>
+
+<style>
+#map {
+  height: 500px;
+  width: 500px;
+}
+</style>
+
+<script>
+//初期マップの設定
+let map
+let marker
+function initMap(){
+  geocoder = new google.maps.Geocoder()
+
+  map = new google.maps.Map(document.getElementById('map'), {
+    center:  {lat: 33.8869679, lng:130.8825758},  //東京
+    zoom: 15,
+    
+  });
+}
+
+//検索後のマップ作成
+let geocoder
+let aft
+function codeAddress(){
+  let inputAddress = document.getElementById('address').value;
+  geocoder.geocode( { 'address': inputAddress}, function(results, status) {
+    if (status == 'OK') {
+        //マーカーが複数できないようにする
+        if (aft == true){
+            marker.setMap(null);
+        }
+
+        //新しくマーカーを作成する
+        map.setCenter(results[0].geometry.location);
+            marker = new google.maps.Marker({
+            map: map,
+            position: results[0].geometry.location,
+            draggable: true	// ドラッグ可能にする
+        });
+
+        //二度目以降か判断
+        aft = true
+
+        //検索した時に緯度経度を入力する
+        document.getElementById('lat').value = results[0].geometry.location.lat();
+        document.getElementById('lng').value = results[0].geometry.location.lng();
+
+        // マーカーのドロップ（ドラッグ終了）時のイベント
+        google.maps.event.addListener( marker, 'dragend', function(ev){
+            // イベントの引数evの、プロパティ.latLngが緯度経度
+            document.getElementById('lat').value = ev.latLng.lat();
+            document.getElementById('lng').value = ev.latLng.lng();
+        });
+    } else {
+      alert('該当する結果がありませんでした：' + status);
+    }
+  });   
+}
+
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=<%= ENV['MAP_API']%>&callback=initMap" async defer></script>

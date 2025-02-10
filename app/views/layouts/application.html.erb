@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Icecream2</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <script src="https://kit.fontawesome.com/17567cfc3e.js" crossorigin="anonymous"></script>
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body>
+    <header>
+      <h1>iceacream日記</h1>
+      <div class="header-btn">
+        <%= link_to "投稿一覧に戻る", tweets_path %>
+        <%= link_to "新規投稿へ", new_tweet_path %>
+        <%if user_signed_in?%>
+          <%= link_to 'ログアウト', destroy_user_session_path, data: { turbo_method: :delete } %>
+        <%end%>
+      </div>
+    </header>
+    <%= yield %>
+  </body>
+</html>
