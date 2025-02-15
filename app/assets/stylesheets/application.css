@@ -19,7 +19,7 @@
 
  }
  body{
-    background-color: rgb(243, 237, 226);
+    background-color: rgb(215, 231, 249);
  }
 
 a{
@@ -32,12 +32,17 @@ header{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: rgb(240, 226, 200);
-    border-bottom: solid 6px rgb(163, 200, 253);
+    background-color: rgba(10, 62, 121, 0.886);
+    border-bottom: solid 4px rgb(239, 147, 147); 
+    font-family: "Oleo Script", serif;
 }
+
 header h1{
     margin-left: 10px;
+    color:#e5e1e1
 }
+
 .header-btn{
-margin-right: 10px;
+    font-family: "BIZ UDGothic", serif;
+    margin-right: 10px;
 }

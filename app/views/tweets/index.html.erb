@@ -6,16 +6,26 @@
     <%= f.select :season_cont, [['春', '春'], ['夏', '夏'], ['秋', '秋'], ['冬', '冬'], ['通年', '通年'], ['その他', 'その他']], {include_blank: '季節'} %> 
     <%= f.submit "search" %></p>
 <% end %>
+
+<% if user_signed_in? %>
+  <%= link_to "マイページへ", user_path(current_user.id) %>
+<% end %>
+
 <div class="tweets-container">
   <% @tweets.each do |t| %>
     <div class="tweet">
       <% if t.image.attached? %>
         <%= link_to tweet_path(t.id) do %>
+         <%= link_to t.user.name, user_path(t.user.id) %> # 追記
           <%= image_tag t.image, size: '250x250'%><br>
         <% end %> 
       <% end %>
       <%= t.name %><br>
       <%= t.price %>円<br>
+
+       <% if t.user.image.attached? %>
+          <%= image_tag  t.user.image, size: '20x20'%>
+       <% end %>
       
       <% if user_signed_in? %>
       <% if current_user.already_liked?(t) %>
@@ -30,9 +40,10 @@
   <% else %>
       <i class="far fa-heart"></i><%= t.likes.count %>
   <% end %>
-
+    <% if user_signed_in? && current_user.id == t.user_id %>    
       <%= link_to "編集する", edit_tweet_path(t.id) %>
       <%= button_to "削除する", tweet_path(t.id), method: :delete %>
+    <% end %> 
       </div>
   <% end %>
 </div>

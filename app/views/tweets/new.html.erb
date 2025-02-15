@@ -1,26 +1,27 @@
-<h1>GeekTwitter</h1>
-<h3>新規投稿</h3>
+<h3 class="newtitle">New Post</h3><br>
 <%= form_for @tweet do |f| %>
   <div class="field">
-    <%= f.label :name,"商品名" %>
-    <%= f.text_field :name, :size => 40,placeholder:"商品名を入れる" %><br>
+    <%= f.label :name,"name" %>
+    <%= f.text_field :name, :size => 40,placeholder:"商品名を入力" %><br>
    
-    <%= f.label :price %>
-    <%= f.number_field :price, :size => 40 %>円<br>
+    <%= f.label :price,"price" %>
+    <%= f.number_field :price, :size => 40,placeholder:"価格を入力" %>円<br>
    
-    <%= f.label :flavor %>
-    <%= f.text_field :flavor, :size => 40 %><br>
+    <%= f.label :flavor,"flavor" %>
+    <%= f.text_field :flavor, :size => 40,placeholder:"味を入力" %><br>
    
-    <%= f.label :detail %>
-    <%= f.text_area :detail, :size => "20x5" %><br>
+    <%= f.label :detail,"detail" %>
+    <%= f.text_area :detail, :size => "25x7",placeholder:"説明を入力" %><br>
    
-    <%= f.select :genre, [['カップアイス', 'カップアイス'], ['棒アイス', '棒アイス'], ['ソフトクリーム', 'ソフトクリーム'], ['氷菓', '氷菓'], ['モナカ', 'モナカ'], ['サンド', 'サンド'], ['その他', 'その他']], {include_blank: '種類'} %><br>
+    <%= f.label :detail,"genre" %>
+    <%= f.select :genre, [['カップアイス', 'カップアイス'], ['棒アイス', '棒アイス'], ['ソフトクリーム', 'ソフトクリーム'], ['氷菓', '氷菓'], ['モナカ', 'モナカ'], ['サンド', 'サンド'], ['その他', 'その他']], {include_blank: '種類を選択'} %><br>
 
-    <%= f.select :season, [['春', '春'], ['夏', '夏'], ['秋', '秋'], ['冬', '冬'], ['通年', '通年'], ['その他', 'その他']], {include_blank: '季節'} %> 
+    <%= f.label :detail,"season" %>
+    <%= f.select :season, [['春', '春'], ['夏', '夏'], ['秋', '秋'], ['冬', '冬'], ['通年', '通年'], ['その他', 'その他']], {include_blank: '季節を選択'} %> 
   </div>
   
   <div class="field">
-    <%= f.label :image %>
+    <%= f.label :image,"photo" %>
     <%= f.file_field :image %>
   </div>
   
@@ -28,8 +29,7 @@
    
     <%= f.hidden_field :lng,:value =>"0", id: :lng %>
   <%= f.submit "投稿する" %>
-<% end %>
-<%= link_to "投稿一覧に戻る", tweets_path %>
+<% end %><br>
 
 
 <h2>Map</h2>
