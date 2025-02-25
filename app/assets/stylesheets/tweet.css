@@ -1,3 +1,126 @@
+.tweet-image{
+    margin: 0 auto;
+    text-align: center;
+}
+
+.tweet-data{
+    width: 250px;
+    margin: 0 auto;
+    text-align: left;
+}
+
+.tabs {
+    margin-top: 50px;
+    padding-bottom: 40px;
+    background-color: rgb(215, 231, 249);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    text-align: center;
+    margin: 0 auto;}
+  
+/* タブのボタンスタイル */
+.tab_item {
+    display: inline-block;
+    padding: 10px 20px;
+    border: 2px solid #5ab4bd;
+    background-color: #d9d9d9;
+    border-radius: 5px;
+    font-size: 14px;
+    color: #565656;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin: 20px;
+    width:300px;
+}
+.tab_item:hover {
+    background-color: #5ab4bd;
+    color: #fff;
+}
+
+
+
+  /*ラジオボタンを全て消す*/
+  input[name="tab_item"] {
+    display: none;
+  }
+  
+  /*タブ切り替えの中身のスタイル*/
+  .tab_content {
+    display: none;
+    padding: 40px 40px 0;
+    clear: both;
+    overflow: hidden;
+  }
+  
+  
+  /*選択されているタブのコンテンツのみを表示*/
+  #all:checked ~ #all_content,
+  #programming:checked ~ #programming_content,
+  #design:checked ~ #design_content {
+    display: block;
+  }
+  
+  /*選択されているタブのスタイルを変える*/
+  .tabs input:checked + .tab_item {
+    background-color: #5ab4bd;
+    color: #fff;
+  }
+  .search-bar {
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+    background-color: #f8f8f8;
+  }
+  
+  .search-form {
+    display: flex;
+    gap: 8px;
+  }
+  
+  .search-inputs {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .search-box {
+    width: 250px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+  }
+  
+  .search-select {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+  }
+  
+  .search-button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  
+  .search-button i {
+    font-size: 16px;
+  }
+  
+  .search-button:hover {
+    background-color: #45a049;
+  }
+      
+
 .tweets-container {
     flex-wrap: wrap;
     display: flex;
@@ -5,10 +128,67 @@
     width: 90%;
     margin: 0 auto;
   }
+
+  .tweets-container::after{
+    content:"";
+    display: block;
+    width:30%;
+  }
+
 .tweet{
     width: 30%;
+    box-shadow: 0 0 10px rgb(84, 82, 82) ;
+    margin-top: 10px;
+    padding-top: 5px;
+    border-radius: 4px;
+    background-color: white;
     text-align: center;
+
 }
+
 .newtitle{
     font-family: "BIZ UDGothic", serif;
+    text-align: center;
 }
+
+.post-container{
+    margin: 50px auto;
+    width: 39.6%;
+    border: solid  rgba(239, 147, 147, 0.726); 
+    border-radius: 10px;
+    text-align: left;
+    background-color: rgba(239, 147, 147, 0.726); 
+    height: 20%
+}
+
+.field{
+    font-size: 20px
+}
+
+
+.button-36 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 150px;
+    margin: 0 auto;
+    padding: .3em 2em;
+    border: 2px solid rgba(10, 62, 121, 0.886);
+    border-radius: 5px;
+    background-color: #fff;
+    color: rgba(10, 62, 121, 0.886);
+    font-size: 1em;
+    box-shadow: 0 0 5px;
+}
+
+.button-36:hover {
+    border: none;
+    background-color:rgba(10, 62, 121, 0.886);
+    color: #fff;
+    font-weight: 600;
+    transition: 0.5s;
+    border: 2px solid rgba(10, 62, 121, 0.886);
+
+}
+
+

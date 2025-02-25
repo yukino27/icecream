@@ -1,7 +1,8 @@
 class TweetsController < ApplicationController
-  before_action :authenticate_user!   
+  before_action :authenticate_user!, except: [:show, :index]
     def index
         @tweets = Tweet.all
+        @rank_tweets = Tweet.all.sort {|a,b| b.liked_users.count <=> a.liked_users.count}
         @q = Tweet.ransack(params[:q]) #追記
         @tweets= @q.result #追記
     end

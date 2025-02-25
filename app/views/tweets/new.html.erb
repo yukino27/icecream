@@ -1,103 +1,104 @@
-<h3 class="newtitle">New Post</h3><br>
-<%= form_for @tweet do |f| %>
-  <div class="field">
-    <%= f.label :name,"name" %>
-    <%= f.text_field :name, :size => 40,placeholder:"商品名を入力" %><br>
-   
-    <%= f.label :price,"price" %>
-    <%= f.number_field :price, :size => 40,placeholder:"価格を入力" %>円<br>
-   
-    <%= f.label :flavor,"flavor" %>
-    <%= f.text_field :flavor, :size => 40,placeholder:"味を入力" %><br>
-   
-    <%= f.label :detail,"detail" %>
-    <%= f.text_area :detail, :size => "25x7",placeholder:"説明を入力" %><br>
-   
-    <%= f.label :detail,"genre" %>
-    <%= f.select :genre, [['カップアイス', 'カップアイス'], ['棒アイス', '棒アイス'], ['ソフトクリーム', 'ソフトクリーム'], ['氷菓', '氷菓'], ['モナカ', 'モナカ'], ['サンド', 'サンド'], ['その他', 'その他']], {include_blank: '種類を選択'} %><br>
-
-    <%= f.label :detail,"season" %>
-    <%= f.select :season, [['春', '春'], ['夏', '夏'], ['秋', '秋'], ['冬', '冬'], ['通年', '通年'], ['その他', 'その他']], {include_blank: '季節を選択'} %> 
-  </div>
-  
-  <div class="field">
-    <%= f.label :image,"photo" %>
-    <%= f.file_field :image %>
-  </div>
-  
-    <%= f.hidden_field :lat,:value =>"0", id: :lat %>
-   
-    <%= f.hidden_field :lng,:value =>"0", id: :lng %>
-  <%= f.submit "投稿する" %>
-<% end %><br>
-
-
-<h2>Map</h2>
-
-<input id="address" type="textbox" placeholder="お店の位置情報">
-<input type="button" value="検索" onclick="codeAddress()">
-<p>マーカーをドラック＆ドロップで位置の調整ができます。<p>
-<div id='map'></div>
-
-<style>
-#map {
-  height: 500px;
-  width: 500px;
-}
-</style>
-
-<script>
-//初期マップの設定
-let map
-let marker
-function initMap(){
-  geocoder = new google.maps.Geocoder()
-
-  map = new google.maps.Map(document.getElementById('map'), {
-    center:  {lat: 33.8869679, lng:130.8825758},  //東京
-    zoom: 15,
+<div class="post-container">
+  <h2 class="newtitle">New Post</h2><br>
+  <%= form_for @tweet do |f| %>
+    <div class="field">
+      <%= f.label :name,"name" %>
+      <%= f.text_field :name, :size => 50,placeholder:""%><br>
     
-  });
-}
+      <%= f.label :price,"price" %>
+      <%= f.number_field :price, :size => 50,placeholder:"価格を入力" %>円<br>
+    
+      <%= f.label :flavor,"flavor" %>
+      <%= f.text_field :flavor, :size => 50,placeholder:"味を入力" %><br>
+    
+      <%= f.label :detail,"detail" %>
+      <%= f.text_area :detail, :size => "30x4",placeholder:"説明を入力" %><br>
+    
+      <%= f.label :detail,"genre" %>
+      <%= f.select :genre, [['カップアイス', 'カップアイス'], ['棒アイス', '棒アイス'], ['ソフトクリーム', 'ソフトクリーム'], ['氷菓', '氷菓'], ['モナカ', 'モナカ'], ['サンド', 'サンド'], ['その他', 'その他']], {include_blank: '種類を選択'} %><br>
 
-//検索後のマップ作成
-let geocoder
-let aft
-function codeAddress(){
-  let inputAddress = document.getElementById('address').value;
-  geocoder.geocode( { 'address': inputAddress}, function(results, status) {
-    if (status == 'OK') {
-        //マーカーが複数できないようにする
-        if (aft == true){
-            marker.setMap(null);
-        }
+      <%= f.label :detail,"season" %>
+      <%= f.select :season, [['春', '春'], ['夏', '夏'], ['秋', '秋'], ['冬', '冬'], ['通年', '通年'], ['その他', 'その他']], {include_blank: '季節を選択'} %> <br>
+    </div>
+    
+    <div class="field">
+      <%= f.label :image,"photo" %>
+      <%= f.file_field :image %>
+    </div>
+    
+      <%= f.hidden_field :lat,:value =>"0", id: :lat %>
+    
+      <%= f.hidden_field :lng,:value =>"0", id: :lng %><br>
 
-        //新しくマーカーを作成する
-        map.setCenter(results[0].geometry.location);
-            marker = new google.maps.Marker({
-            map: map,
-            position: results[0].geometry.location,
-            draggable: true	// ドラッグ可能にする
-        });
+      <h4>Map</h4>
+      <input id="address" type="textbox" placeholder="お店の位置情報">
+      <input type="button" value="検索" onclick="codeAddress()">
+        <p>マーカーをドラック＆ドロップで位置の調整ができます。<p>
+        <div id='map'></div>
+    <br>
+    <button class="button-36">投稿する</button><br>
+  <% end %>
 
-        //二度目以降か判断
-        aft = true
+  <style>
+  #map {
+    height: 500px;
+    width: 500px;
+  }
+  </style>
 
-        //検索した時に緯度経度を入力する
-        document.getElementById('lat').value = results[0].geometry.location.lat();
-        document.getElementById('lng').value = results[0].geometry.location.lng();
+  <script>
+  //初期マップの設定
+  let map
+  let marker
+  function initMap(){
+    geocoder = new google.maps.Geocoder()
 
-        // マーカーのドロップ（ドラッグ終了）時のイベント
-        google.maps.event.addListener( marker, 'dragend', function(ev){
-            // イベントの引数evの、プロパティ.latLngが緯度経度
-            document.getElementById('lat').value = ev.latLng.lat();
-            document.getElementById('lng').value = ev.latLng.lng();
-        });
-    } else {
-      alert('該当する結果がありませんでした：' + status);
-    }
-  });   
-}
+    map = new google.maps.Map(document.getElementById('map'), {
+      center:  {lat: 33.8869679, lng:130.8825758},  //東京
+      zoom: 15,
+      
+    });
+  }
 
-</script>
-<script src="https://maps.googleapis.com/maps/api/js?key=<%= ENV['MAP_API']%>&callback=initMap" async defer></script>
+  //検索後のマップ作成
+  let geocoder
+  let aft
+  function codeAddress(){
+    let inputAddress = document.getElementById('address').value;
+    geocoder.geocode( { 'address': inputAddress}, function(results, status) {
+      if (status == 'OK') {
+          //マーカーが複数できないようにする
+          if (aft == true){
+              marker.setMap(null);
+          }
+
+          //新しくマーカーを作成する
+          map.setCenter(results[0].geometry.location);
+              marker = new google.maps.Marker({
+              map: map,
+              position: results[0].geometry.location,
+              draggable: true	// ドラッグ可能にする
+          });
+
+          //二度目以降か判断
+          aft = true
+
+          //検索した時に緯度経度を入力する
+          document.getElementById('lat').value = results[0].geometry.location.lat();
+          document.getElementById('lng').value = results[0].geometry.location.lng();
+
+          // マーカーのドロップ（ドラッグ終了）時のイベント
+          google.maps.event.addListener( marker, 'dragend', function(ev){
+              // イベントの引数evの、プロパティ.latLngが緯度経度
+              document.getElementById('lat').value = ev.latLng.lat();
+              document.getElementById('lng').value = ev.latLng.lng();
+          });
+      } else {
+        alert('該当する結果がありませんでした：' + status);
+      }
+    });   
+  }
+
+  </script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=<%= ENV['MAP_API']%>&callback=initMap" async defer></script>
+</div>

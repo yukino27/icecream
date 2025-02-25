@@ -1,27 +1,64 @@
-<h1>users#show</h1>
-<p>名前 : <%= @user.name %></p>
-<p>メールアドレス : <%= @user.email %></p>
-<p>プロフィール : <%= @user.profile %></p>
+<div class="mypage">
+ <h2>マイページ</h2>
+ <p>アカウント名 : <%= @user.name %></p>
+ <p>メールアドレス : <%= @user.email %></p>
+ <p>プロフィール : <%= @user.profile %></p>
+</div>
 
 <% if current_user.id == @user.id %>
   <%= link_to "編集する", edit_user_registration_path %>
-<% end %>
+<% end %><br><br>
 
-<h2>ユーザーの投稿一覧</h2>
-<% @user.tweets.each do |t| %>
-  <%= t.user.name %>
-  <%= t.body %>
-<% end %>
+<h3>あなたの投稿</h3>
+        <div class="tweets-container">
+          <% @user.tweets.each do |t| %>
+            <div class="tweet">
+              <div class="tweet-data">
+                  <% if t.user.image.attached? %>
+                  <%= image_tag  t.user.image, size: '20x20'%>
+                  <% end %>
+                  <%= t.user.name %>
+                  <br>
+              </div>
+
+              <% if t.image.attached? %>
+                <%= link_to tweet_path(t.id) do %>
+                
+                  <%= image_tag t.image, size: '250x250',class:"tweet-image"%><br>
+                <% end %> 
+              <% end %>
+              <div class="tweet-data">
+              <%= t.name %><br>
+              <%= t.price %>円<br>
+              
+              <% if user_signed_in? %>
+              <% if current_user.already_liked?(t) %>
+                  <%= link_to tweet_like_path(id: t.id, tweet_id: t.id),  data: { turbo_method: :delete } do %>
+                      <i class="fas fa-heart"></i><%= t.likes.count %>
+                  <% end %>
+              <% else %>
+                  <%= link_to tweet_likes_path(id: t.id, tweet_id: t.id),  data: { turbo_method: :post } do %>
+                      <i class="far fa-heart"></i><%= t.likes.count %>
+                  <% end %>
+              <% end %>
+          <% else %>
+              <i class="far fa-heart"></i><%= t.likes.count %>
+          <% end %>
+          </div>
+
+          </div>
+          <% end %>
+        </div>
 
 <!-- 以下はいいね機能を実装している場合-->
-<h2>ユーザーがいいねした投稿一覧</h2>
+<h3>あなたがいいねした投稿</h3>
 <% @user.liked_tweets.each do |t| %>
   <%= t.user.name %>
   <%= t.body %>
 <% end %>
 <!-- ここまで-->
 
-<%= link_to "Tweet一覧に戻る", tweets_path %>
+<%= link_to "投稿一覧に戻る", tweets_path %>
 
 <% if @user.image.attached? %>
      <%= image_tag  @user.image, size: '20x20'%>
