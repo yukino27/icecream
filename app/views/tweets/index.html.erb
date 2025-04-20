@@ -1,9 +1,7 @@
-<br>
-
 <div class="search-bar">
   <%= search_form_for @q, class: "search-form" do |f| %>
     <div class="search-inputs">
-      <%= f.search_field :name_cont, placeholder: "料理名・材料でレシピを検索", class: "search-box" %>
+      <%= f.search_field :name_cont, placeholder: "商品名・キーワード", class: "search-box" %>
       <%= f.select :genre_cont, 
             [['カップアイス', 'カップアイス'], ['棒アイス', '棒アイス'], ['ソフトクリーム', 'ソフトクリーム'], ['氷菓', '氷菓'], ['モナカ', 'モナカ'], ['サンド', 'サンド'], ['その他', 'その他']], 
             {include_blank: '種類を選択'}, 
@@ -15,7 +13,7 @@
             {class: "search-select"} 
       %> 
       <button type="submit" class="search-button">
-        <i class="fas fa-search"></i> アイスクリーム検索
+        <i class="fas fa-search"></i> 検索
       </button>
     </div>
   <% end %>

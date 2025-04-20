@@ -3,13 +3,19 @@
  <p>アカウント名 : <%= @user.name %></p>
  <p>メールアドレス : <%= @user.email %></p>
  <p>プロフィール : <%= @user.profile %></p>
+  <% if @user.image.attached? %>
+     <%= image_tag  @user.image, size: '60x60'%>
+  <% end %>
+  <br>
+
+
+  <% if current_user.id == @user.id %>
+    <%= link_to "編集する", edit_user_registration_path %>
+  <% end %><br><br>
+
+  <h3>あなたの投稿</h3>
 </div>
 
-<% if current_user.id == @user.id %>
-  <%= link_to "編集する", edit_user_registration_path %>
-<% end %><br><br>
-
-<h3>あなたの投稿</h3>
         <div class="tweets-container">
           <% @user.tweets.each do |t| %>
             <div class="tweet">
@@ -51,6 +57,8 @@
         </div>
 
 <!-- 以下はいいね機能を実装している場合-->
+<div class="mypage">
+<br>
 <h3>あなたがいいねした投稿</h3>
 <% @user.liked_tweets.each do |t| %>
   <%= t.user.name %>
@@ -60,6 +68,9 @@
 
 <%= link_to "投稿一覧に戻る", tweets_path %>
 
-<% if @user.image.attached? %>
-     <%= image_tag  @user.image, size: '20x20'%>
-<% end %>
+<br>
+<br>
+<br>
+<br>
+<br>
+</div>

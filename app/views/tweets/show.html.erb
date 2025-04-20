@@ -1,53 +1,66 @@
-<h3>投稿詳細</h3>
-<div class="tweet">
-  <p><%= @tweet.body %></p>
-  <p><%= @tweet.created_at %></p>
+ <div class="postdetail"> 
+  <h3>投稿詳細</h3>
+  <div class="tweet">
+    <div class="tweet-detail">
+      <p><%= @tweet.body %></p>
+      <p><%= @tweet.created_at %></p>
+      <%= image_tag @tweet.image, size: '360x360',class:"tweet-image"%><br>  
+      <p><strong>商品名:</strong> <%= @tweet.name %></p>
+      <p><strong>価格:</strong> <%= @tweet.price %>円</p>
+      <p><strong>フレーバー:</strong> <%= @tweet.flavor %></p>
+      <p><strong>詳細:</strong> <%= @tweet.detail %></p>
+      <p><strong>種類:</strong> <%= @tweet.genre %></p>
+      <p><strong>季節:</strong> <%= @tweet.season %></p>
 
-  <% if user_signed_in? %>
-  <% if current_user.already_liked?(@tweet) %>
-    <%= link_to tweet_like_path(@tweet),  data: { turbo_method: :delete } do %>
-      <i class="fas fa-heart"></i><%= @tweet.likes.count %>
-    <% end %>
-  <% else %>
-    <%= link_to tweet_likes_path(@tweet),  data: { turbo_method: :post } do %>
-      <i class="far fa-heart"></i><%= @tweet.likes.count %>
-    <% end %>
-  <% end %>
-<% else %>
-  <i class="far fa-heart"></i><%= @tweet.likes.count %>
-<% end %>
-  </div>
+          <% if user_signed_in? %>
+          <% if current_user.already_liked?(@tweet) %>
+            <%= link_to tweet_like_path(@tweet),  data: { turbo_method: :delete } do %>
+              <i class="fas fa-heart"></i><%= @tweet.likes.count %>
+            <% end %>
+          <% else %>
+            <%= link_to tweet_likes_path(@tweet),  data: { turbo_method: :post } do %>
+              <i class="far fa-heart"></i><%= @tweet.likes.count %>
+            <% end %>
+          <% end %>
+        <% else %>
+          <i class="far fa-heart"></i><%= @tweet.likes.count %>
+        <% end %>
+    </div>
+    <br>
+  <%= link_to "編集する", edit_tweet_path(@tweet.id) %>
+<br>
+<br>
+  <div id='map'></div>
 
-<%= link_to "投稿一覧", tweets_path %>
-<%= link_to "編集する", edit_tweet_path(@tweet.id) %>
+  <style>
+  #map {
+    height: 280px;
+    width: 100%;
+    
+  }
+  </style>
 
-<div id='map'></div>
+  <!-- js部分 -->
+  <script>
+  //初期マップの設定
 
-<style>
-#map {
-  height: 300px;
-  width: 50%;
-}
-</style>
+  let map
+  let marker
+  function initMap(){
+    geocoder = new google.maps.Geocoder()
 
-<!-- js部分 -->
-<script>
-//初期マップの設定
+    map = new google.maps.Map(document.getElementById('map'), {
+      center:  {lat: <%= @tweet.lat %>, lng: <%= @tweet.lng %>},
+      zoom: 7,
+    });
 
-let map
-let marker
-function initMap(){
-  geocoder = new google.maps.Geocoder()
-
-  map = new google.maps.Map(document.getElementById('map'), {
-    center:  {lat: <%= @tweet.lat %>, lng: <%= @tweet.lng %>},
-    zoom: 7,
-  });
-
-   marker = new google.maps.Marker({
-    position:  {lat: <%= @tweet.lat %>, lng: <%= @tweet.lng %>},
-    map: map
-  });
-}
-</script>
-<script src="https://maps.googleapis.com/maps/api/js?key=<%= ENV['MAP_API']%>&callback=initMap" async defer></script>
+    marker = new google.maps.Marker({
+      position:  {lat: <%= @tweet.lat %>, lng: <%= @tweet.lng %>},
+      map: map
+    });
+  }
+  </script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=<%= ENV['MAP_API']%>&callback=initMap" async defer></script>
+</div>
+</div>
+<br>
